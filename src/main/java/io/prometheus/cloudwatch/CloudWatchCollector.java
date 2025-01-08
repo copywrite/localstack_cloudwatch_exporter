@@ -9,6 +9,7 @@ import io.prometheus.cloudwatch.DataGetter.MetricRuleData;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.URI;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -202,6 +203,10 @@ public class CloudWatchCollector extends Collector implements Describable {
 
       if (region != null) {
         clientBuilder.region(Region.of(region));
+      }
+
+      if (config.containsKey("endpoint")) {
+        clientBuilder.endpointOverride(URI.create((String) config.get("endpoint")));
       }
 
       cloudWatchClient = clientBuilder.build();
